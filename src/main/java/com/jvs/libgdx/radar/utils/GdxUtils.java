@@ -15,8 +15,8 @@ public class GdxUtils {
     }
 
     public static void clearScreen() {
-        //clearScreen(Color.BLACK);
-        clearScreen(new Color(0.5f, 0, 0, 1.0f));
+        clearScreen(Color.BLACK);
+        //clearScreen(new Color(0.5f, 0, 0, 1.0f));
     }
 
 }
