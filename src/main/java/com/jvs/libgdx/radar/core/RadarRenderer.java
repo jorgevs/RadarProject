@@ -21,8 +21,9 @@ public class RadarRenderer extends SampleBase {
     private static final float WORLD_WIDTH = 800f;   // world units
     private static final float WORLD_HEIGHT = 600f;  // world units
 
-    private static final float RADAR_RADIUS = 250f;  // world units
-    private static final float RADAR_LINE_LENGTH = 250f;  // world units
+    private static final float RADAR_RADIUS = 250f;
+    private static final float RADAR_LINE_LENGTH = 250f;
+    private static final int RADAR_VELOCITY = 3;
 
     private OrthographicCamera camera;
     private Viewport viewport;
@@ -34,10 +35,7 @@ public class RadarRenderer extends SampleBase {
 
     private boolean drawRadar = true;
     private boolean drawLine = true;
-    //private boolean drawGrid = true;
-    //private boolean drawCircles = true;
-    //private boolean drawRectangles = true;
-    //private boolean drawPoints = true;
+    private boolean drawGrid = true;
 
     @Override
     public void create() {
@@ -59,38 +57,33 @@ public class RadarRenderer extends SampleBase {
     @Override
     public void render() {
         GdxUtils.clearScreen();
-
         renderer.setProjectionMatrix(camera.combined);
 
-        if (drawRadar) drawRadar();
+        if (drawGrid) drawGrid();
         if (drawLine) drawLine();
-        //if (drawGrid) drawGrid();
-        //if (drawCircles) drawCircles();
-        //if (drawRectangles) drawRectangles();
-        //if (drawPoints) drawPoints();
+        if (drawRadar) drawRadar();
 
-        if(increase) angle+=1.5;
-        if(!increase) angle-=1.5;
-
-        if(angle >= 180 || angle <= 0){
-            //angle = 0;
-            increase = !increase;
-        }
-
+        adjustDirectionAndLimits();
     }
 
+    private void adjustDirectionAndLimits(){
+        // Adjusts line's direction
+        if(increase) angle+=RADAR_VELOCITY;
+        if(!increase) angle-=RADAR_VELOCITY;
+
+        // Adjusts the line's limits
+        if(angle >= 180 || angle <= 0){
+            increase = !increase;
+        }
+    }
     private void drawRadar() {
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.setColor(Color.GREEN);
 
         // draws the arc lines
         renderer.arc(0, 0, RADAR_RADIUS, 0, 180, 100);
-        //renderer.arc(0, 0, RADAR_RADIUS-50, 0, 180, 100);
         renderer.arc(0, 0, RADAR_RADIUS-100, 0, 180, 100);
-        //renderer.arc(0, 0, RADAR_RADIUS-150, 0, 180, 100);
         renderer.arc(0, 0, RADAR_RADIUS-200, 0, 180, 100);
-        //renderer.arc(0, 0, RADAR_RADIUS-250, 0, 180, 100);
-        //renderer.arc(0, 0, RADAR_RADIUS-300, 0, 180, 100);
 
         // draws the angle lines
         renderer.setColor(Color.BLUE);
@@ -118,11 +111,11 @@ public class RadarRenderer extends SampleBase {
         int worldWidth = (int) WORLD_WIDTH;
         int worldHeight = (int) WORLD_HEIGHT;
 
-        for (int x = -worldWidth; x < worldWidth; x++) {
+        for (int x = -worldWidth; x < worldWidth; x+=100) {
             renderer.line(x, -worldHeight, x, worldHeight);
         }
 
-        for (int y = -worldHeight; y < worldHeight; y++) {
+        for (int y = -worldHeight; y < worldHeight; y+=100) {
             renderer.line(-worldWidth, y, worldWidth, y);
         }
 
@@ -131,36 +124,6 @@ public class RadarRenderer extends SampleBase {
         renderer.line(0f, -worldHeight, 0f, worldHeight);
         renderer.end();
     }
-
-    private void drawCircles() {
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.GREEN);
-        renderer.circle(2, 2, 2, 30);
-        renderer.circle(-5, -5, 1);
-        renderer.end();
-    }
-
-    private void drawRectangles() {
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.WHITE);
-        renderer.rect(-8, 4, 4, 2);
-        renderer.rect(-11, 3, 1, 5);
-        renderer.end();
-    }
-
-    private void drawPoints() {
-        renderer.begin(ShapeRenderer.ShapeType.Filled);
-        renderer.setColor(Color.CORAL);
-        renderer.point(-5, 0, 0);
-        renderer.point(5, -3, 0);
-        renderer.point(8, 6, 1);
-        renderer.end();
-
-        renderer.begin(ShapeRenderer.ShapeType.Line);
-        renderer.x(-10, 0, .25f);
-        renderer.end();
-    }
-
     @Override
     public void dispose() {
         renderer.dispose();
@@ -169,11 +132,8 @@ public class RadarRenderer extends SampleBase {
     @Override
     public boolean keyDown(int keycode) {
         if(keycode == Input.Keys.R) drawRadar = !drawRadar;
-        //if(keycode == Input.Keys.G) drawGrid = !drawGrid;
-        //if(keycode == Input.Keys.C) drawCircles = !drawCircles;
-        //if(keycode == Input.Keys.R) drawRectangles = !drawRectangles;
-        //if(keycode == Input.Keys.P) drawPoints = !drawPoints;
-
+        if(keycode == Input.Keys.L) drawLine = !drawLine;
+        if(keycode == Input.Keys.G) drawGrid = !drawGrid;
         return true;
     }
 }
