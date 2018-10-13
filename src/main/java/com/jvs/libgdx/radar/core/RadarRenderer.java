@@ -29,7 +29,8 @@ public class RadarRenderer extends SampleBase {
     private Viewport viewport;
     private ShapeRenderer renderer;
 
-    private float angle = 0f;
+    private int angle = 0;
+    private float radarInclination = 0f;
 
     private boolean increase = true;
 
@@ -64,6 +65,13 @@ public class RadarRenderer extends SampleBase {
         if (drawRadar) drawRadar();
 
         adjustDirectionAndLimits();
+
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            radarInclination--;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            radarInclination++;
+        }
     }
 
     private void adjustDirectionAndLimits(){
@@ -72,7 +80,9 @@ public class RadarRenderer extends SampleBase {
         if(!increase) angle-=RADAR_VELOCITY;
 
         // Adjusts the line's limits
-        if(angle >= 180 || angle <= 0){
+        LOGGER.debug("radarInclination: " + radarInclination);
+        LOGGER.debug("angle: " + angle);
+        if(angle >= 180+radarInclination || angle <= 0+radarInclination){
             increase = !increase;
         }
     }
@@ -81,9 +91,9 @@ public class RadarRenderer extends SampleBase {
         renderer.setColor(Color.GREEN);
 
         // draws the arc lines
-        renderer.arc(0, 0, RADAR_RADIUS, 0, 180, 100);
-        renderer.arc(0, 0, RADAR_RADIUS-100, 0, 180, 100);
-        renderer.arc(0, 0, RADAR_RADIUS-200, 0, 180, 100);
+        renderer.arc(0, 0, RADAR_RADIUS, radarInclination, 180, 100);
+        renderer.arc(0, 0, RADAR_RADIUS-100, radarInclination, 180, 100);
+        renderer.arc(0, 0, RADAR_RADIUS-200, radarInclination, 180, 100);
 
         // draws the angle lines
         renderer.setColor(Color.BLUE);
@@ -100,7 +110,7 @@ public class RadarRenderer extends SampleBase {
     private void drawLine(){
         renderer.begin(ShapeRenderer.ShapeType.Line);
         renderer.setColor(Color.GREEN);
-        //renderer.arc(0, 0, RADAR_RADIUS, 0, angle, 100);
+        //renderer.arc(0, 0, RADAR_RADIUS, 0, (angle+radarInclination), 100);
         renderer.line(0,0,RADAR_LINE_LENGTH * cos(angle * 0.017453292F),RADAR_LINE_LENGTH * sin(angle * 0.017453292F));
         renderer.end();
     }
