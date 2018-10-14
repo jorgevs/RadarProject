@@ -2,18 +2,15 @@ package com.jvs.libgdx.radar;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.jvs.libgdx.radar.core.RadarRenderer;
+import com.jvs.libgdx.radar.config.GameConfig;
 
-/**
- * Hello world!
- */
-public class App {
+public class DesktopLauncher {
     public static void main(String[] args) {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.title = "Radar";
+        config.title = GameConfig.GAME_NAME;
         config.useGL30 = true;
-        config.width = 800;
-        config.height = 600;
-        new LwjglApplication(new RadarRenderer(), config);
+        config.width = (int)GameConfig.WIDTH;
+        config.height = (int)GameConfig.HEIGHT;
+        new LwjglApplication(new RadarGame(), config);
     }
 }
