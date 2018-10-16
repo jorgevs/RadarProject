@@ -38,10 +38,10 @@ public class Radar {
     }
 
     public void increaseLineInclination() {
-        this.lineInclination++;
+        this.lineInclination-=GameConfig.RADAR_INCLINATION_VELOCITY;
     }
 
     public void decreaseLineInclination() {
-        this.lineInclination--;
+        this.lineInclination+=GameConfig.RADAR_INCLINATION_VELOCITY;
     }
 }

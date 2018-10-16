@@ -56,17 +56,18 @@ public class GameRenderer implements Disposable {
 
         // draws the arc lines
         shapeRenderer.arc(gameController.getRadar().getLineOrigin_x(), gameController.getRadar().getLineOrigin_y(), GameConfig.RADAR_RADIUS, gameController.getRadar().getLineInclination(), 180, 100);
-        shapeRenderer.arc(gameController.getRadar().getLineOrigin_x(), gameController.getRadar().getLineOrigin_y(), GameConfig.RADAR_RADIUS-50, gameController.getRadar().getLineInclination(), 180, 100);
-        shapeRenderer.arc(gameController.getRadar().getLineOrigin_x(), gameController.getRadar().getLineOrigin_y(), GameConfig.RADAR_RADIUS-100, gameController.getRadar().getLineInclination(), 180, 100);
+        shapeRenderer.arc(gameController.getRadar().getLineOrigin_x(), gameController.getRadar().getLineOrigin_y(), GameConfig.RADAR_RADIUS-2.5f, gameController.getRadar().getLineInclination(), 180, 100);
+        shapeRenderer.arc(gameController.getRadar().getLineOrigin_x(), gameController.getRadar().getLineOrigin_y(), GameConfig.RADAR_RADIUS-5, gameController.getRadar().getLineInclination(), 180, 100);
+        shapeRenderer.arc(gameController.getRadar().getLineOrigin_x(), gameController.getRadar().getLineOrigin_y(), GameConfig.RADAR_RADIUS-7.5f, gameController.getRadar().getLineInclination(), 180, 100);
 
         // draws the angle lines
         shapeRenderer.setColor(Color.BLUE);
         shapeRenderer.line(-GameConfig.RADAR_LINE_LENGTH,0,GameConfig.RADAR_LINE_LENGTH,0);
-        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),GameConfig.RADAR_LINE_LENGTH*cos(30 * 0.017453292F),GameConfig.RADAR_LINE_LENGTH*sin(30*0.017453292F));
-        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),GameConfig.RADAR_LINE_LENGTH*cos(60 * 0.017453292F),GameConfig.RADAR_LINE_LENGTH*sin(60*0.017453292F));
-        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),GameConfig.RADAR_LINE_LENGTH*cos(90 * 0.017453292F),GameConfig.RADAR_LINE_LENGTH*sin(90*0.017453292F));
-        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),GameConfig.RADAR_LINE_LENGTH*cos(120 * 0.017453292F),GameConfig.RADAR_LINE_LENGTH*sin(120*0.017453292F));
-        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),GameConfig.RADAR_LINE_LENGTH*cos(150 * 0.017453292F),GameConfig.RADAR_LINE_LENGTH*sin(150*0.017453292F));
+        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),gameController.getRadar().getLineLength() * cos(30 * 0.017453292F),gameController.getRadar().getLineLength() * sin(30 * 0.017453292F));
+        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),gameController.getRadar().getLineLength() * cos(60 * 0.017453292F),gameController.getRadar().getLineLength() * sin(60 * 0.017453292F));
+        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),gameController.getRadar().getLineLength() * cos(90 * 0.017453292F),gameController.getRadar().getLineLength() * sin(90 * 0.017453292F));
+        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),gameController.getRadar().getLineLength() * cos(120 * 0.017453292F),gameController.getRadar().getLineLength() * sin(120 * 0.017453292F));
+        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(),gameController.getRadar().getLineLength() * cos(150 * 0.017453292F),gameController.getRadar().getLineLength() * sin(150 * 0.017453292F));
 
         shapeRenderer.end();
     }
@@ -74,8 +75,8 @@ public class GameRenderer implements Disposable {
     private void drawLine(){
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN);
-        shapeRenderer.arc(0, 0, gameController.getRadar().getLineLength(), 0, gameController.getRadar().getLineAngle(), 100);
-        //shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(), gameController.getRadar().getLineLength() * cos(gameController.getRadar().getLineAngle() * 0.017453292F),gameController.getRadar().getLineAngle() * sin(gameController.getRadar().getLineAngle() * 0.017453292F));
+        //shapeRenderer.arc(0, 0, gameController.getRadar().getLineLength(), 0, gameController.getRadar().getLineAngle(), 100);
+        shapeRenderer.line(gameController.getRadar().getLineOrigin_x(),gameController.getRadar().getLineOrigin_y(), gameController.getRadar().getLineLength() * cos(gameController.getRadar().getLineAngle() * 0.017453292F),gameController.getRadar().getLineLength() * sin(gameController.getRadar().getLineAngle() * 0.017453292F));
         shapeRenderer.end();
     }
 
@@ -85,11 +86,11 @@ public class GameRenderer implements Disposable {
         int worldWidth = (int) GameConfig.WORLD_WIDTH;
         int worldHeight = (int) GameConfig.WORLD_HEIGHT;
 
-        for (int x = -worldWidth; x < worldWidth; x+=1) {
+        for (int x = -worldWidth; x < worldWidth; x++) {
             shapeRenderer.line(x, -worldHeight, x, worldHeight);
         }
 
-        for (int y = -worldHeight; y < worldHeight; y+=1) {
+        for (int y = -worldHeight; y < worldHeight; y++) {
             shapeRenderer.line(-worldWidth, y, worldWidth, y);
         }
 

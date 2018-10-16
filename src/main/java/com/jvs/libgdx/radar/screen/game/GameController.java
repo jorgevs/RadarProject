@@ -15,15 +15,11 @@ public class GameController extends InputAdapter {
 
     boolean drawRadar = true;
     boolean drawLine = true;
-    boolean drawGrid = true;
+    boolean drawGrid = false;
 
     public GameController() {
         radar = new Radar();
         init();
-    }
-
-    public Radar getRadar() {
-        return radar;
     }
 
     private void init(){
@@ -49,7 +45,7 @@ public class GameController extends InputAdapter {
         // Adjusts the line's limits
         //LOGGER.debug("radarInclination: " + radar.getLineInclination());
         //LOGGER.debug("angle: " + radar.getLineAngle());
-        if(radar.getLineAngle() > (180) || radar.getLineAngle() < (0)){
+        if(radar.getLineAngle() > 180 || radar.getLineAngle() < 0){
             increase = !increase;
         }
     }
@@ -60,5 +56,9 @@ public class GameController extends InputAdapter {
         if(keycode == Input.Keys.L) drawLine = !drawLine;
         if(keycode == Input.Keys.G) drawGrid = !drawGrid;
         return true;
+    }
+
+    public Radar getRadar() {
+        return radar;
     }
 }
